@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "767589688938",
+    "project_id": "fits-be455",
+    "storage_bucket": "fits-be455.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:767589688938:android:3b8aa2034bfbcbd0e18c13",
+        "android_client_info": {
+          "package_name": "com.example.flutter_fitness"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYqjiOhWZy53flm_vvako-3R0WYp5k6rU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
