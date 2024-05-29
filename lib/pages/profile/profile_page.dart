@@ -58,6 +58,10 @@ class _ProfilePageState extends State<ProfilePage> {
     {"image": "assets/img/p_setting.png", "name": "Setting", "tag": "7"},
   ];
 
+  List chatBot = [
+    {"image": "assets/img/p_setting.png", "name": "Chat-bot", "tag": "8"},
+  ];
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -310,6 +314,49 @@ class _ProfilePageState extends State<ProfilePage> {
                         title: iObj["name"].toString(),
                         onPressed: () {
                           Navigator.popAndPushNamed(context, '/person');
+                        },
+                      );
+                    },
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+              decoration: BoxDecoration(
+                  color: TColor.white,
+                  borderRadius: BorderRadius.circular(15),
+                  boxShadow: const [
+                    BoxShadow(color: Colors.black12, blurRadius: 2)
+                  ]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Chat-bot",
+                    style: TextStyle(
+                      color: TColor.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 8,
+                  ),
+                  ListView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: chatBot.length,
+                    itemBuilder: (context, index) {
+                      var iObj = chatBot[index] as Map? ?? {};
+                      return SettingRow(
+                        icon: iObj["image"].toString(),
+                        title: iObj["name"].toString(),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(context, '/chat');
                         },
                       );
                     },

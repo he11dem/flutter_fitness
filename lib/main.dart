@@ -1,9 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fitness/database/auth/service.dart';
-import 'package:flutter_fitness/generated/l10n.dart';
 import 'package:flutter_fitness/routes/routes.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
@@ -30,16 +28,6 @@ class MyApp extends StatelessWidget {
       initialData: null,
       value: AuthService().currentUser,
       child: MaterialApp(
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const [
-          Locale('en', 'US'), // Английский
-          Locale('ru', 'RU')
-        ],
         title: 'Fitness',
         theme: ThemeData(
             textTheme:

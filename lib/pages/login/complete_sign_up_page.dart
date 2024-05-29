@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_const_constructors, use_super_parameters, use_build_context_synchronously, await_only_futures
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fitness/Const/color_constans.dart';
 import 'package:flutter_fitness/Const/common%20widgets/round_button.dart';
 import 'package:flutter_fitness/Const/common%20widgets/round_textfiled.dart';
-import 'package:flutter_fitness/database/collections/user_collection.dart';
+import 'package:flutter_fitness/database/collections/profile_collection.dart';
 import 'package:toast/toast.dart';
 
 class CompleteSignUpPage extends StatefulWidget {
@@ -15,15 +18,16 @@ class CompleteSignUpPage extends StatefulWidget {
 class _CompleteSignUpPageState extends State<CompleteSignUpPage> {
   TextEditingController gender = TextEditingController();
   TextEditingController height = TextEditingController();
-  TextEditingController width = TextEditingController();
+  TextEditingController weight = TextEditingController();
   TextEditingController date = TextEditingController();
-  UsersCollection usersCollection = UsersCollection();
+  UserProfileCollection userProfileCollection = UserProfileCollection();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Функция для проверки заполнения полей
   bool _areFieldsFilled() {
     return gender.text.isNotEmpty &&
         height.text.isNotEmpty &&
-        width.text.isNotEmpty &&
+        weight.text.isNotEmpty && // Изменено: weight
         date.text.isNotEmpty;
   }
 
@@ -132,7 +136,7 @@ class _CompleteSignUpPageState extends State<CompleteSignUpPage> {
                         children: [
                           Expanded(
                             child: RoundTextField(
-                              controller: width,
+                              controller: weight, // Изменено: weight
                               hitText: "Your Weight",
                               icon: "assets/img/weight.png",
                             ),
@@ -196,11 +200,29 @@ class _CompleteSignUpPageState extends State<CompleteSignUpPage> {
                       ),
                       RoundButton(
                           title: "Next >",
-                          onPressed: () {
+                          onPressed: () async {
                             if (_areFieldsFilled()) {
-                              Navigator.popAndPushNamed(context, '/what');
+                              final user = await _auth.currentUser;
+                              if (user != null) {
+                                await userProfileCollection
+                                    .addUserProfileCollection(
+                                        user.uid,
+                                        height.text,
+                                        weight.text,
+                                        date.text, // Изменено: weight
+                                        gender.text);
+                                Navigator.popAndPushNamed(context, '/what');
+                              } else {
+                                Toast.show('Error: User not authenticated!',
+                                    textStyle: context,
+                                    duration: 4,
+                                    gravity: Toast.center);
+                              }
                             } else {
-                              Toast.show('Warning! Fill in the fields!');
+                              Toast.show('Warning! Fill in the fields!',
+                                  textStyle: context,
+                                  duration: 4,
+                                  gravity: Toast.center);
                             }
                           }),
                     ],

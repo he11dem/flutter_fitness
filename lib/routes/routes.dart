@@ -1,3 +1,4 @@
+import 'package:flutter_fitness/pages/chat_bot_page.dart';
 import 'package:flutter_fitness/pages/home_page.dart';
 import 'package:flutter_fitness/pages/login/complete_sign_up_page.dart';
 import 'package:flutter_fitness/pages/login/main_tab_view.dart';
@@ -22,4 +23,5 @@ final routs = {
   '/profile': (context) => const ProfilePage(),
   '/complete': (context) => const CompleteSignUpPage(),
   '/person': (context) => const UserProfilePage(),
+  '/chat': (context) => ChatBotPage(),
 };

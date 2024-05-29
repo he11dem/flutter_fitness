@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_fitness/Const/color_constans.dart';
-import 'package:flutter_fitness/database/collections/user_collection.dart';
+import 'package:flutter_fitness/database/collections/profile_collection.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({Key? key}) : super(key: key);
@@ -14,7 +14,8 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-  UsersCollection usersCollection = UsersCollection();
+  dynamic docs;
+  final UserProfileCollection userProfileCollection = UserProfileCollection();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   // Переменные для хранения данных пользователя
@@ -22,31 +23,22 @@ class _UserProfilePageState extends State<UserProfilePage> {
   int? weight;
   int? height;
   String? dateOfBirth;
+  getuser() async {
+    final String uid = _auth.currentUser!.uid.toString();
+    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
+        .collection('userProfiles')
+        .doc(uid)
+        .get();
+    setState(() {
+      docs = documentSnapshot;
+    });
+  }
+
   // Функция для получения данных пользователя из Firebase
   @override
   void initState() {
+    getuser();
     super.initState();
-    _fetchUserData();
-  }
-
-  Future<User?> getUser() async {
-    return _auth.currentUser;
-  }
-
-  // Функция для получения данных пользователя из Firebase
-  Future<void> _fetchUserData() async {
-    final user = await usersCollection.getUser();
-    final snapshot = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(user.uid)
-        .get();
-
-    setState(() {
-      gender = snapshot.get('gender');
-      weight = snapshot.get('weight');
-      height = snapshot.get('height');
-      dateOfBirth = snapshot.get('dateOfBirth');
-    });
   }
 
   @override
@@ -76,8 +68,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
             SizedBox(height: 8),
             Text(
-              gender ??
-                  'Not specified', // Отображаем "Не указано" если нет данных
+              docs['gender'],
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
@@ -90,9 +81,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
             SizedBox(height: 8),
             Text(
-              weight != null
-                  ? '$weight кг'
-                  : 'Not specified', // Отображаем "Не указано" если нет данных
+              docs['weight'],
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
@@ -105,9 +94,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
             SizedBox(height: 8),
             Text(
-              height != null
-                  ? '$height см'
-                  : 'Not specified', // Отображаем "Не указано" если нет данных
+              docs['height'],
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 20),
@@ -120,8 +107,7 @@ class _UserProfilePageState extends State<UserProfilePage> {
             ),
             SizedBox(height: 8),
             Text(
-              dateOfBirth ??
-                  'Not specified', // Отображаем "Не указано" если нет данных
+              docs['dateOfBirth'], // Отображаем "Не указано" если нет данных
               style: const TextStyle(fontSize: 16),
             ),
           ],

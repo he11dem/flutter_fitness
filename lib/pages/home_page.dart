@@ -80,7 +80,6 @@ class _HomePageState extends State<HomePage> {
               centerTitle: true,
               elevation: 0,
               leadingWidth: 0,
-              leading: const SizedBox(),
               expandedHeight: media.width * 0.5,
               flexibleSpace: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 20),

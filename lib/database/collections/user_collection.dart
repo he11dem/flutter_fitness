@@ -16,9 +16,6 @@ class UsersCollection {
         'email': email,
         'password': password,
         'check': check,
-        'gender': '',
-        'height': '',
-        'width': '',
       });
     } catch (e) {
       return;
